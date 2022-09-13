@@ -17,7 +17,8 @@ Prerequisites
 - compileSdkVersion 32 (For AndroidX dependencies, the min compileSdkVersion version is 31)
 - minSdkVersion 21
 - Supports up to Android 12
-- Gradle 7.2.0
+- Gradle 7.2.2
+- Gradle-wrapper 7.2.4
 
 To run app in an Android Virtual Device (AVD), we have used the following configuration:
 - Pixel 4 Mobile device with x86 System image
