@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         // Use findViewById to get a reference to the weather display TextView
         mWeatherTextView = findViewById(R.id.tv_weather_data);
 
+        // Call loadWeatherData to perform the network request to get the weather
+        loadWeatherData();
+
     }
 
     // Create a method that will get the user's preferred location and execute your new AsyncTask and call it loadWeatherData
