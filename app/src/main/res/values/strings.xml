@@ -25,7 +25,10 @@
     <string name="app_name">Sunshine</string>
 
     <!-- String for the title of the refresh button, "Refresh"-->
-    <string name="refresh">Refresh</string>
+    <string name="action_refresh">Refresh</string>
+
+    <!--Add a string stating that an error has occurred-->
+    <string name="error_message">Failed to get Results. Please try again later!</string>
 
     <!-- - - - - - - - - - - - - -->
     <!--Used by SunshineDateUtils-->
