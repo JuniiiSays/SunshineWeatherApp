@@ -18,8 +18,10 @@ package com.example.android.sunshine;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.android.sunshine.data.SunshinePreferences;
@@ -93,5 +95,19 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.forecast, menu);
         // Return true to display the menu
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int itemMenuThatWasSelected = item.getItemId();
+
+        if (itemMenuThatWasSelected == R.id.action_refresh){
+            mWeatherTextView.setText("");
+            loadWeatherData();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
