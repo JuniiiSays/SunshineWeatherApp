@@ -19,6 +19,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -34,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
     // Create a field to store the weather display TextView
     TextView mWeatherTextView;
+    // Create a variable to store a reference to the error message TextView
+    private TextView mErrorMessageDisplay;
+    // Create a ProgressBar variable to store a reference to the ProgressBar
+    private ProgressBar mLoadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Use findViewById to get a reference to the weather display TextView
         mWeatherTextView = findViewById(R.id.tv_weather_data);
+        // Find the TextView for the error message using findViewById
+        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+        // Find the ProgressBar using findViewById
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
         // Call loadWeatherData to perform the network request to get the weather
         loadWeatherData();
@@ -51,12 +61,31 @@ public class MainActivity extends AppCompatActivity {
     // Create a method that will get the user's preferred location and execute your new AsyncTask and call it loadWeatherData
 
     private void loadWeatherData(){
+        showWeatherDataView();
         String location = SunshinePreferences.getPreferredWeatherLocation(this);
         new FetchWeatherTask().execute(location);
     }
 
+    // Create a method called showWeatherDataView that will hide the error message and show the weather data
+    private void showWeatherDataView(){
+        mErrorMessageDisplay.setVisibility(View.INVISIBLE);
+        mWeatherTextView.setVisibility(View.VISIBLE);
+    }
+
+    // Create a method called showErrorMessage that will hide the weather data and show the error message
+    private void showErrorMessage(){
+        mWeatherTextView.setVisibility(View.INVISIBLE);
+        mErrorMessageDisplay.setVisibility(View.VISIBLE);
+    }
+
     // Create a class that extends AsyncTask to perform network requests
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]>{
+        //Override onPreExecute to set the loading indicator to visible
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingIndicator.setVisibility(View.VISIBLE);
+        }
 
         // Override the doInBackground method to perform your network requests
         @Override
@@ -81,9 +110,15 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String[] weatherData) {
+            // As soon as the loading is complete, hide the loading indicator
+            mLoadingIndicator.setVisibility(View.INVISIBLE);
             if (weatherData != null){
+                // If the weather data was not null, make sure the data view is visible
+                showWeatherDataView();
                 for (String weatherString : weatherData)
                     mWeatherTextView.append(weatherString + "\n\n\n");
+            } else {
+                showErrorMessage();
             }
         }
     }
