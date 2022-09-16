@@ -15,10 +15,16 @@
  */
 package com.example.android.sunshine;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.android.sunshine.utilities.NetworkUtils;
+import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
+
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +39,31 @@ public class MainActivity extends AppCompatActivity {
         // Use findViewById to get a reference to the weather display TextView
         mWeatherTextView = findViewById(R.id.tv_weather_data);
 
-
     }
+
+    // Create a class that extends AsyncTask to perform network requests
+    public class FetchWeatherTask extends AsyncTask<String, Void, String[]>{
+
+        // Override the doInBackground method to perform your network requests
+        @Override
+        protected String[] doInBackground(String... params) {
+            // if there is no zip code, there is nothing to look up
+            if (params.length == 0){
+                return null;
+            }
+
+            String location = params[0];
+            URL weatherRequestUrl = NetworkUtils.buildUrl(location);
+
+            try {
+                String jsonWeatherResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
+                String[] simpleJsonWeatherData = OpenWeatherJsonUtils.getSimpleWeatherStringsFromJson(MainActivity.this, jsonWeatherResponse);
+                return simpleJsonWeatherData;
+            } catch (Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
 }
