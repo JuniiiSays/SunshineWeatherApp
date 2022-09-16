@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.android.sunshine.data.SunshinePreferences;
 import com.example.android.sunshine.utilities.NetworkUtils;
 import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 
@@ -39,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
         // Use findViewById to get a reference to the weather display TextView
         mWeatherTextView = findViewById(R.id.tv_weather_data);
 
+    }
+
+    // Create a method that will get the user's preferred location and execute your new AsyncTask and call it loadWeatherData
+
+    private void loadWeatherData(){
+        String location = SunshinePreferences.getPreferredWeatherLocation(this);
+        new FetchWeatherTask().execute(location);
     }
 
     // Create a class that extends AsyncTask to perform network requests
