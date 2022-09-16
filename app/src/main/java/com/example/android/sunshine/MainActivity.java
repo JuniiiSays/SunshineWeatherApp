@@ -17,6 +17,7 @@ package com.example.android.sunshine;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -85,4 +86,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Override onCreateOptionsMenu to inflate the menu for this Activity
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // use getMenuInflater().inflate to inflate the menu
+        getMenuInflater().inflate(R.menu.forecast, menu);
+        // Return true to display the menu
+        return true;
+    }
 }
