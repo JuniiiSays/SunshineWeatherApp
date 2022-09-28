@@ -18,16 +18,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ScrollView
+
+    <!--Completed S03.01 (2) Replace ScrollView and TextView with RecyclerView-->
+    <!--Completed S03.01 (3) Give the RecyclerView an id of @+id/recyclerview_forecast-->
+    <!--Completed S03.01 (4) Set the width and the height of the RecyclerView to match_parent-->
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/tv_weather_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textSize="20sp"/>
-    </ScrollView>
+        android:layout_height="wrap_content"
+        android:id="@+id/recyclerview_forecast">
+
+    </androidx.recyclerview.widget.RecyclerView>
     <!-- Add a TextView that you will show the user if there is an error loading content-->
     <TextView
         android:id="@+id/tv_error_message_display"
