@@ -15,6 +15,7 @@
  */
 package com.example.android.sunshine;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,7 +36,8 @@ import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+// S03.02 (8) Implement ForecastAdapterOnClickHandler from the MainActivity
+public class MainActivity extends AppCompatActivity implements ForecastAdapter.ForecastAdapterOnClickHandler {
 
     // S03.01 (33) Delete mWeatherTextView
     // S03.01 (34) Add a private RecyclerView variable called mRecyclerView
@@ -71,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
          * The ForecastAdapter is responsible for linking our weather data with the Views that
          * will end up displaying our weather data.
          */
-        mForecastAdapter = new ForecastAdapter();
+        // S03.02 (11) Pass in 'this' as the ForecastAdapterOnClickHandler
+        mForecastAdapter = new ForecastAdapter(this);
         // S03.01 (44) Use mRecyclerView.setAdapter and pass in mForecastAdapter
         /* Setting the adapter attaches it to the RecyclerView in our layout. */
         mRecyclerView.setAdapter(mForecastAdapter);
@@ -90,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
         showWeatherDataView();
         String location = SunshinePreferences.getPreferredWeatherLocation(this);
         new FetchWeatherTask().execute(location);
+    }
+
+    // S03.02 (9) Override ForecastAdapterOnClickHandler's onClick method
+    // S03.02 (10) Show a Toast when an item is clicked, displaying that item's weather data
+    @Override
+    public void onClick(String weatherForDay) {
+        Context context = this;
+        Toast.makeText(context, weatherForDay, Toast.LENGTH_SHORT).show();
     }
 
     // Create a method called showWeatherDataView that will hide the error message and show the weather data
