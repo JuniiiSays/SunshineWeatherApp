@@ -16,6 +16,11 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
     // S03.01 (23) Create a private string array called mWeatherData
     private String[] mWeatherData;
 
+    // S03.01 (47) Create the default constructor (we will pass in parameters in a later lesson)
+    public ForecastAdapter() {
+
+    }
+
     // S03.01 (24) Override onCreateViewHolder
     // S03.01 (25) Within onCreateViewHolder, inflate the list item xml into a view
     // S03.01 (26) Within onCreateViewHolder, return a new ForecastAdapterViewHolder with the above view passed in as a parameter
