@@ -52,9 +52,9 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
         // S03.01 (18) Create a public final TextView variable called mWeatherTextView
         public final TextView mWeatherTextView;
 
-        // COMPLETED (19) Create a constructor for this class that accepts a View as a parameter
-        // COMPLETED (20) Call super(view)
-        // COMPLETED (21) Using view.findViewById, get a reference to this layout's TextView and save it to mWeatherTextView
+        // S03.01 (19) Create a constructor for this class that accepts a View as a parameter
+        // S03.01 (20) Call super(view)
+        // S03.01 (21) Using view.findViewById, get a reference to this layout's TextView and save it to mWeatherTextView
 
         public ForecastAdapterViewHolder(@NonNull View view) {
             super(view);
@@ -65,8 +65,8 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.Foreca
 
     }
 
-    // COMPLETED (31) Create a setWeatherData method that saves the weatherData to mWeatherData
-    // COMPLETED (32) After you save mWeatherData, call notifyDataSetChanged
+    // S03.01 (31) Create a setWeatherData method that saves the weatherData to mWeatherData
+    // S03.01 (32) After you save mWeatherData, call notifyDataSetChanged
     public void setWeatherData(String[] weatherData){
         mWeatherData = weatherData;
         notifyDataSetChanged();
