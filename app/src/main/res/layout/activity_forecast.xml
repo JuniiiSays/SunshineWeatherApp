@@ -21,13 +21,14 @@
     <!--Completed S03.01 (2) Replace ScrollView and TextView with RecyclerView-->
     <!--Completed S03.01 (3) Give the RecyclerView an id of @+id/recyclerview_forecast-->
     <!--Completed S03.01 (4) Set the width and the height of the RecyclerView to match_parent-->
+    <!-- Add a TextView that you will show the user if there is an error loading content-->
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_forecast"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/recyclerview_forecast">
+        android:layout_height="match_parent">
 
     </androidx.recyclerview.widget.RecyclerView>
-    <!-- Add a TextView that you will show the user if there is an error loading content-->
+
     <TextView
         android:id="@+id/tv_error_message_display"
         android:layout_width="wrap_content"
