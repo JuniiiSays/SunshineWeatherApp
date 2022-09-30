@@ -17,8 +17,10 @@ package com.example.android.sunshine;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +41,8 @@ import java.net.URL;
 
 // S03.02 (8) Implement ForecastAdapterOnClickHandler from the MainActivity
 public class MainActivity extends AppCompatActivity implements ForecastAdapter.ForecastAdapterOnClickHandler {
+
+    public static final String TAG = MainActivity.class.getSimpleName();
 
     // S03.01 (33) Delete mWeatherTextView
     // S03.01 (34) Add a private RecyclerView variable called mRecyclerView
@@ -166,6 +170,20 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
         }
     }
 
+    private void openLocationInMap(){
+        String addressString = "1600 Ampitheatre Parkway, CA";
+        Uri geoLocation = Uri.parse("geo:0,0?q=" + addressString);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(geoLocation);
+
+        if (intent.resolveActivity(getPackageManager()) != null){
+            startActivity(intent);
+        } else {
+            Log.d(TAG, "Couldn't call " + geoLocation.toString() + ", no receiving app is installed!");
+        }
+    }
+
     // Override onCreateOptionsMenu to inflate the menu for this Activity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -178,12 +196,17 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        int itemMenuThatWasSelected = item.getItemId();
+        int id = item.getItemId();
 
-        if (itemMenuThatWasSelected == R.id.action_refresh){
+        if (id == R.id.action_refresh){
             // S03.01 (46) Instead of setting the text to "", set the adapter to null before refreshing
             mForecastAdapter.setWeatherData(null);
             loadWeatherData();
+            return true;
+        }
+
+        if (id == R.id.action_map){
+            openLocationInMap();
             return true;
         }
 
