@@ -16,6 +16,7 @@
 package com.example.android.sunshine;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -100,8 +101,9 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
     // S03.02 (10) Show a Toast when an item is clicked, displaying that item's weather data
     @Override
     public void onClick(String weatherForDay) {
-        Context context = this;
-        Toast.makeText(context, weatherForDay, Toast.LENGTH_SHORT).show();
+        Context context = MainActivity.this;
+        Intent intent = new Intent(context, DetailActivity.class);
+        startActivity(intent);
     }
 
     // Create a method called showWeatherDataView that will hide the error message and show the weather data
