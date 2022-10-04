@@ -157,7 +157,20 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
             @Nullable
             @Override
             public String[] loadInBackground() {
-                return new String[0];
+
+                String locationQuery = SunshinePreferences.getPreferredWeatherLocation(MainActivity.this);
+                URL weatherRequestUrl = NetworkUtils.buildUrl(locationQuery);
+
+                try {
+
+                    String jsonWeatherResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
+                    String[] simpleWeatherJsonData = OpenWeatherJsonUtils.getSimpleWeatherStringsFromJson(MainActivity.this,jsonWeatherResponse);
+                    return simpleWeatherJsonData;
+
+                } catch (Exception e){
+                    e.printStackTrace();
+                    return null;
+                }
             }
         };
     }
