@@ -29,7 +29,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.AsyncTaskLoader;
+import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,7 +44,8 @@ import com.example.android.sunshine.utilities.OpenWeatherJsonUtils;
 import java.net.URL;
 
 // S03.02 (8) Implement ForecastAdapterOnClickHandler from the MainActivity
-public class MainActivity extends AppCompatActivity implements ForecastAdapter.ForecastAdapterOnClickHandler {
+// TODO (1) Implement the proper LoaderCallbacks interface and the methods of that interface
+public class MainActivity extends AppCompatActivity implements ForecastAdapter.ForecastAdapterOnClickHandler, LoaderManager.LoaderCallbacks<String[]> {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -88,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
         // Find the ProgressBar using findViewById
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
+        // TODO (7) Remove the code for the AsyncTask and initialize the AsyncTaskLoader
         // Call loadWeatherData to perform the network request to get the weather
         loadWeatherData();
 
@@ -100,6 +106,11 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
         String location = SunshinePreferences.getPreferredWeatherLocation(this);
         new FetchWeatherTask().execute(location);
     }
+
+    // TODO (2) Within onCreateLoader, return a new AsyncTaskLoader that looks a lot like the existing FetchWeatherTask.
+    // TODO (3) Cache the weather data in a member variable and deliver it in onStartLoading.
+
+    // TODO (4) When the load is finished, show either the data or an error message if there is no data
 
     // S03.02 (9) Override ForecastAdapterOnClickHandler's onClick method
     // S03.02 (10) Show a Toast when an item is clicked, displaying that item's weather data
@@ -125,6 +136,43 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
+    @NonNull
+    @Override
+    public Loader<String[]> onCreateLoader(int id, @Nullable Bundle loaderArgs) {
+        return new AsyncTaskLoader<String[]>(this) {
+
+            String[] mWeatherData = null;
+
+            @Override
+            protected void onStartLoading() {
+
+                if (mWeatherData != null){
+                    deliverResult(mWeatherData);
+                } else {
+                    mLoadingIndicator.setVisibility(View.VISIBLE);
+                    forceLoad();
+                }
+            }
+
+            @Nullable
+            @Override
+            public String[] loadInBackground() {
+                return new String[0];
+            }
+        };
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<String[]> loader, String[] data) {
+
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<String[]> loader) {
+
+    }
+
+    // TODO (6) Remove any and all code from MainActivity that references FetchWeatherTask
     // Create a class that extends AsyncTask to perform network requests
     public class FetchWeatherTask extends AsyncTask<String, Void, String[]>{
         //Override onPreExecute to set the loading indicator to visible
@@ -198,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
 
         int id = item.getItemId();
 
+        // TODO (5) Refactor the refresh functionality to work with our AsyncTaskLoader
         if (id == R.id.action_refresh){
             // S03.01 (46) Instead of setting the text to "", set the adapter to null before refreshing
             mForecastAdapter.setWeatherData(null);
