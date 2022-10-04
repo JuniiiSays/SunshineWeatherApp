@@ -208,50 +208,7 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
     }
 
     // TODO (6) Remove any and all code from MainActivity that references FetchWeatherTask
-    // Create a class that extends AsyncTask to perform network requests
-    public class FetchWeatherTask extends AsyncTask<String, Void, String[]>{
-        //Override onPreExecute to set the loading indicator to visible
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLoadingIndicator.setVisibility(View.VISIBLE);
-        }
 
-        // Override the doInBackground method to perform your network requests
-        @Override
-        protected String[] doInBackground(String... params) {
-            // if there is no zip code, there is nothing to look up
-            if (params.length == 0){
-                return null;
-            }
-
-            String location = params[0];
-            URL weatherRequestUrl = NetworkUtils.buildUrl(location);
-
-            try {
-                String jsonWeatherResponse = NetworkUtils.getResponseFromHttpUrl(weatherRequestUrl);
-                String[] simpleJsonWeatherData = OpenWeatherJsonUtils.getSimpleWeatherStringsFromJson(MainActivity.this, jsonWeatherResponse);
-                return simpleJsonWeatherData;
-            } catch (Exception e){
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String[] weatherData) {
-            // As soon as the loading is complete, hide the loading indicator
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
-            if (weatherData != null){
-                // If the weather data was not null, make sure the data view is visible
-                showWeatherDataView();
-                // S03.01 (45) Instead of iterating through every string, use mForecastAdapter.setWeatherData and pass in the weather data
-                mForecastAdapter.setWeatherData(weatherData);
-            } else {
-                showErrorMessage();
-            }
-        }
-    }
 
     private void openLocationInMap(){
         String addressString = "1600 Ampitheatre Parkway, CA";
