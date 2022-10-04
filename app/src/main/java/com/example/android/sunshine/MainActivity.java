@@ -172,6 +172,12 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
                     return null;
                 }
             }
+
+            @Override
+            public void deliverResult(@Nullable String[] data) {
+                mWeatherData = data;
+                super.deliverResult(data);
+            }
         };
     }
 
