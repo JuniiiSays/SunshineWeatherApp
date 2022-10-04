@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
     // Create a ProgressBar variable to store a reference to the ProgressBar
     private ProgressBar mLoadingIndicator;
 
+    private static final int FORECAST_LOADER_ID = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +136,14 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
         // S03.01 (44) Show mRecyclerView, not mWeatherTextView
         mRecyclerView.setVisibility(View.INVISIBLE);
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * This method is used when we are resetting data, so that at one point in time during a
+     * refresh of our data, you can see that there is no data showing.
+     */
+    private void invalidateData() {
+        mForecastAdapter.setWeatherData(null);
     }
 
     @NonNull
@@ -274,8 +284,8 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapter.F
         // TODO (5) Refactor the refresh functionality to work with our AsyncTaskLoader
         if (id == R.id.action_refresh){
             // S03.01 (46) Instead of setting the text to "", set the adapter to null before refreshing
-            mForecastAdapter.setWeatherData(null);
-            loadWeatherData();
+            invalidateData();
+            getSupportLoaderManager().restartLoader(FORECAST_LOADER_ID, null, this);
             return true;
         }
 
